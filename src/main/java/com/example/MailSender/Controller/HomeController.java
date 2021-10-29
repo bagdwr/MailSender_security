@@ -5,6 +5,7 @@ import com.example.MailSender.Services.MailService;
 import com.example.MailSender.Services.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,9 @@ public class HomeController {
     private MailService mailService;
 
     private String mail_code="";
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping(value = "/")
     public String showLogin(){
@@ -61,7 +65,7 @@ public class HomeController {
             @RequestParam(name = "password")String password
     ){
         User user=userService.findByEmail(email);
-        if (user.getPassword().equals(password) && user!=null){
+        if (passwordEncoder.matches(password,user.getPassword()) && user!=null){
             mail_code=RandomStringUtils.randomAlphanumeric(20);
             mailService.sendMail(email,mail_code);
             return "redirect:/loginWithRandom?email="+email;

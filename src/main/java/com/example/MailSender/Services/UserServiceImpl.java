@@ -1,10 +1,12 @@
 package com.example.MailSender.Services;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.MailSender.Entity.User;
 import com.example.MailSender.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +14,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -42,6 +47,8 @@ public class UserServiceImpl implements UserService{
     public User createUser(User user) {
         User createUser=userRepository.findByEmail(user.getEmail());
         if (createUser==null){
+            String password=user.getPassword();
+            user.setPassword(passwordEncoder.encode(password));
             return userRepository.save(user);
         }
         return null;
