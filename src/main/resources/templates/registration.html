@@ -9,25 +9,27 @@
      <div class="container">
            <div class="row mt-3">
                 <div class="col-3 offset-5">
-                    <form action="/createUser" method="post">
+                    <form action="/createUser" method="post" id="registerForm">
                         <div class="form-group">
                                <label class="form-label">Email</label>
-                               <input class="form-control" type="email" required name="email">
+                               <input class="form-control" type="email"  name="email" id="email">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Name</label>
-                            <input class="form-control" type="text" required name="name">
+                            <input class="form-control" type="text" name="name" id="name">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Password</label>
-                            <input class="form-control" type="password" required name="password">
+                            <input class="form-control" type="password" name="password" id="password">
                         </div>
                         <button type="submit" class="btn btn-success mt-2">Sign up</button>
                         <a class="btn btn-info mt-2" href="/">Login page</a>
                     </form>
+                    <div id="text" style="color:red;"></div>
                 </div>
            </div>
      </div>
 
+     <script src="index.js"></script>
 </body>
 </html>
